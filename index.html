@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>♬₊VinynClock♪⋆⁺₊✧</title>
+
+  <!--  Google font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;200;300;400;500;600;700;800;900&family=Noto+Serif+TC:wght@300;600;700;900&display=swap"
+    rel="stylesheet">
+
+  <!-- font awesome -->
+  <!-- <link rel="stylesheet" href="./css/all.css"> -->
+
+  <!-- 自己的外部樣式表 -->
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!-- icons：google font 
+    weight：400, grade：0, OpticalSize：24 -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- CDNJS 引入 animate.css -->
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.css'
+    integrity='sha512-phGxLIsvHFArdI7IyLjv14dchvbVkEDaH95efvAae/y2exeWBQCQDpNFbOTdV1p4/pIa/XtbuDCnfhDEIXhvGQ=='
+    crossorigin='anonymous' />
+
+</head>
+
+<body>
+
+  <!-- 面板 -->
+  <div id="container" class="effect">
+    <!-- 黑膠機 -->
+    <div id="records" class="effect"></div>
+
+    <!-- 黑膠盤 -->
+    <div id="vinyl" class="rotate"></div>
+    <!-- 時鐘 -->
+    <div id="clock">
+      <div id="hour"></div>
+      <div id="second"></div>
+      <div id="minute"></div>
+      <!-- <p id="text">00:00:00</p> -->
+    </div>
+
+    <div id="dayOrNight" class="effect btn">
+      <span class="material-symbols-rounded">light_mode</span>
+    </div>
+    <div id="cool" class="effect btn">
+      <span class="material-symbols-rounded">emoticon</span>
+    </div>
+    <div id="like" class="effect btn">
+      <span class="material-symbols-rounded">favorite</span>
+    </div>
+
+    <!-- 跑馬燈 -->
+    <div id="niceday" class="effect">
+      <marquee behavior="alternate" scrollamount="3">Have a nice day !</marquee>
+    </div>
+
+    <!-- 代辦清單 -->
+    <div id="todolist" class="effect">
+
+
+      <!-- 清單標題 -->
+      <div id="listTitle">
+        <input id="titleInput" type="text" placeholder="My List" maxlength="21">
+        <i class="fa fa-pencil-alt"></i>
+      </div>
+
+      <!-- 清單列 -->
+      <form id="form">
+        <input type="text" id="text">
+        <!-- <button id="addNewItemBtn">
+          <span class="material-symbols-outlined">add_circle</span>
+        </button> -->
+        <input type="submit" value="&nbsp;+&nbsp;" id="addBtn">
+      </form>
+      <ul id="lists"></ul>
+
+
+
+    </div>
+
+
+
+    <div id="vinylBlock" class="effect">
+      <div>
+        <div id="secondvinyl"><img src="./images/secondvinyl.png"></div>
+        <div id="vinylbox"><img src="./images/vinylbox.png"></div>
+      </div>
+    </div>
+
+
+    <!-- Spotify -->
+
+    <iframe id="spotify"
+      src="https://open.spotify.com/embed/playlist/4tU4PuDmXjSS0Dnnr3VKoi?utm_source=generator&theme=0" frameBorder="0"
+      allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+
+
+
+
+  <!-- JQ -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
+    integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=='
+    crossorigin='anonymous'></script>
+
+  <!-- 時鐘 -->
+  <script>
+    const elHour = document.getElementById('hour')
+    const elMinute = document.getElementById('minute')
+    const elSecond = document.getElementById('second')
+    const elText = document.getElementById('text')
+
+    const clock = () => {
+      const date = new Date()
+      const hour = date.getHours()
+      const minute = date.getMinutes()
+      const second = date.getSeconds()
+      elHour.style.transform = `rotate(${hour * 30 + 90}deg)`
+      elMinute.style.transform = `rotate(${minute * 6 + 90}deg)`
+      elSecond.style.transform = `rotate(${second * 6 + 90}deg)`
+      elText.innerText = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+    }
+    setInterval(clock, 1000)
+    clock()
+
+  </script>
+  <!--  to do list -->
+  <script>
+    $('#form').submit(function (event) {
+      // 停止 form 送出時的預設跳頁動作
+      event.preventDefault()
+
+      // 最多保留 6 筆代辦事項
+      if ($('#lists li').length >= 6) {
+        alert('最多只能有 6 筆待辦事項');
+        return;
+      }
+
+      // 添加新的代辦事項
+      $('#lists').append(`
+					<li>
+						${$('#text').val()}
+						<input type="button" value=" x " class="del">
+					</li>
+				`)
+      $('#text').val('')
+    })
+    $('#lists').on('click', '.del', function () {
+      $(this).parent().remove()
+    })
+  </script>
+
+
+</body>
+
+</html>
